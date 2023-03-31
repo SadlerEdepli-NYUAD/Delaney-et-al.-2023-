@@ -1,0 +1,27 @@
+#Figure S1 ----
+#Single liver correlation and as3mt expression
+library(readr)
+Table_S1_endogenous_single_livers <- read_csv("Table S1 endogenous single livers.csv", 
+                                              col_types = cols(...1 = col_skip()))
+library(dplyr)
+library(ggplot2)
+theme_set(theme_bw(base_size = 16))
+
+ggplot(Table_S1_endogenous_single_livers , aes(x=YM, y=PM)) + 
+  geom_point(alpha=0.3)
+
+highlight <- subset(Table_S1_endogenous_single_livers [4736,])
+
+
+ggplot(Table_S1_endogenous_single_livers , aes(x=YM, y=PM)) + 
+  geom_point(alpha=0.3) +
+  geom_point(data=highlight, 
+             aes(x=YM,y=PM), 
+             color='red',
+             size=3) + 
+  xlab("Mean Read Count (Yelena)") + ylab("Mean Read Count (Patrice)")
+
+#genes less than as3mt
+lower = subset.data.frame(Table_S1_endogenous_single_livers , Table_S1_endogenous_single_livers $YM < 8.33) #total 32105 / lower 30802 / 0.96
+higher = subset.data.frame(Table_S1_endogenous_single_livers , Table_S1_endogenous_single_livers $YM > 8.33)  #total 32105 / higher 1303  / 0.04
+
